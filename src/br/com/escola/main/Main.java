@@ -1,57 +1,54 @@
 package br.com.escola.main;
 
+import br.com.escola.models.Class;
+import br.com.escola.models.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import br.com.escola.models.*;
-
 public class Main {
-	public static void main(String[] args) {
-		int opcaoMenu;
-		Scanner scan = new Scanner(System.in);
+    public static void main(String[] args) {
+        int menuOption;
+        Scanner scan = new Scanner(System.in);
 
-		List<Turma> listaDeTurmas = new ArrayList<Turma>();
-		List<Aluno> listaDeAlunos = new ArrayList<Aluno>();
-		List<Professor> listaDeProfessores = new ArrayList<Professor>();
-		
-		//Criando algumas turmas 
-		
-		listaDeTurmas.add(new Turma("1º ano"));
-		listaDeTurmas.add(new Turma("2º ano"));
-		listaDeTurmas.add(new Turma("3º ano"));
-		
-		//Criandp alguns alunos
-		
-		listaDeAlunos.add(new Aluno("Guilheme"));
-		listaDeAlunos.add(new Aluno("Luan"));
-		listaDeAlunos.add(new Aluno("João"));
-		listaDeAlunos.add(new Aluno("Maria"));
-		listaDeAlunos.add(new Aluno("Renato"));
-		listaDeAlunos.add(new Aluno("Mariana"));
-		
-		//Criando alguns professores
-		
-		listaDeProfessores.add(new Professor("Selner", "Análise de Sistemas"));
-		listaDeProfessores.add(new Professor("Valmor", "Orientação a objeto"));
-		listaDeProfessores.add(new Professor("Rui", "Estrutura de Dados"));
-		listaDeProfessores.add(new Professor("Rafaella", "Cálculo"));	
-		
+        List<Class> classList = new ArrayList<Class>();
+        List<Student> studentList = new ArrayList<Student>();
+        List<Teacher> teacherList = new ArrayList<Teacher>();
 
-		do {
-			Telas.printaTelaPrincipal();
-			opcaoMenu = scan.nextInt();
-			scan.nextLine();
+        sampleDataCreate(classList, studentList, teacherList);
 
-			if (opcaoMenu == 2) {
-				Portal.portalDeTurmas(listaDeTurmas, listaDeAlunos, listaDeProfessores);
-			} else if (opcaoMenu == 3) {
-				Portal.portalDeAlunos(listaDeTurmas, listaDeAlunos, listaDeProfessores);
-			} else if (opcaoMenu == 4) {
-				Portal.portalDeProfessores(listaDeTurmas, listaDeAlunos, listaDeProfessores);
-			}
+        do {
+            Screen.mainScreen();
+            menuOption = scan.nextInt();
+            scan.nextLine();
 
-		} while (opcaoMenu != 1);
-	}
+            if (menuOption == 2) {
+                Portal.classPortal(classList, studentList, teacherList);
+            } else if (menuOption == 3) {
+                Portal.studentClass(classList, studentList, teacherList);
+            } else if (menuOption == 4) {
+                Portal.teacherPortal(classList, studentList, teacherList);
+            }
 
+        } while (menuOption != 1);
+    }
+
+    private static void sampleDataCreate(List<Class> classList, List<Student> studentList, List<Teacher> teacherList) {
+        classList.add(new Class("1º ano"));
+        classList.add(new Class("2º ano"));
+        classList.add(new Class("3º ano"));
+
+        studentList.add(new Student("Guilheme"));
+        studentList.add(new Student("Luan"));
+        studentList.add(new Student("João"));
+        studentList.add(new Student("Maria"));
+        studentList.add(new Student("Renato"));
+        studentList.add(new Student("Mariana"));
+
+        teacherList.add(new Teacher("Selner", "Análise de Sistemas"));
+        teacherList.add(new Teacher("Valmor", "Orientação a objeto"));
+        teacherList.add(new Teacher("Rui", "Estrutura de Dados"));
+        teacherList.add(new Teacher("Rafaella", "Cálculo"));
+    }
 }

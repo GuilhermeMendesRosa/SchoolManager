@@ -4,270 +4,258 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Portal {
-	Scanner scan = new Scanner(System.in);
 
-	public static void portalDeTurmas(List<Turma> listaDeTurmas, List<Aluno> listaDeAlunos, List<Professor> listaDeProfessores) {
-		Scanner scan = new Scanner(System.in);
-		int opcaoMenuTurmas;
-		do {
-			Telas.printaMenuTurma();
-			opcaoMenuTurmas = scan.nextInt();
-			scan.nextLine();
+    public static void classPortal(List<Class> classList, List<Student> studentList, List<Teacher> teacherList) {
+        Scanner scan = new Scanner(System.in);
+        int option;
+        do {
+            Screen.classMenu();
+            option = scan.nextInt();
+            scan.nextLine();
 
-			if (opcaoMenuTurmas == 2) {
-				System.out.println("Nome da Turma: ");
-				String nomeDaTurma;
-				nomeDaTurma = scan.nextLine();
-				listaDeTurmas.add(new Turma(nomeDaTurma));
-				
-			} else if (opcaoMenuTurmas == 3) {
-				int index = 0;
-				System.out.println("Mostrando as turmas:");
-				for (Turma turma : listaDeTurmas) {
-					turma.printaComIndex(index);
-					index++;
-				}
+            if (option == 2) {
+                System.out.println("Nome da Turma: ");
+                String className = scan.nextLine();
+                classList.add(new Class(className));
 
-			} else if (opcaoMenuTurmas == 4) {
-				int indexTurmaEscolhida;
-				System.out.print("Turma: ");
-				indexTurmaEscolhida = scan.nextInt();
-				scan.nextLine();
-				
-				Turma turmaEscolhida = null;
-				try {
-					turmaEscolhida = listaDeTurmas.get(indexTurmaEscolhida);					
-				} catch (Exception e) {
-					System.out.println("Turma inválida");
-					break;
-				}
-				
-				System.out.println("Alunos disponíveis(não matriculados em nenhuma turma):");
-				int index = 0;
-				for (Aluno aluno : listaDeAlunos) {
-					if (!aluno.getEstadoDaMatricula()) {
-						aluno.printaComIndex(index);
-					}
-					index++;
-				}
+            } else if (option == 3) {
+                System.out.println("Mostrando as turmas:");
+                int index = 0;
+                for (Class aClass : classList) {
+                    aClass.printWithIndex(index);
+                    index++;
+                }
 
-				System.out.print("Aluno escolhido: ");
-				int indexAlunoEscolhido;
-				indexAlunoEscolhido = scan.nextInt();
-				scan.nextLine();
+            } else if (option == 4) {
+                int classIndex;
+                System.out.print("Turma: ");
+                classIndex = scan.nextInt();
+                scan.nextLine();
 
-				try {
-					turmaEscolhida.adicionarAluno(listaDeAlunos.get(indexAlunoEscolhido));
-				} catch (Exception e) {
-					System.out.println("ERRO! Aluno inválido");
-				}
+                Class selectedClass = null;
+                try {
+                    selectedClass = classList.get(classIndex);
+                } catch (Exception e) {
+                    System.out.println("Turma inválida");
+                    break;
+                }
 
-			} else if (opcaoMenuTurmas == 5) {
-				int indexTurmaEscolhida;
-				System.out.print("Turma: ");
-				indexTurmaEscolhida = scan.nextInt();
-				scan.nextLine();
+                System.out.println("Alunos disponíveis(não matriculados em nenhuma turma):");
+                int index = 0;
+                for (Student student : studentList) {
+                    if (!student.getEnrolled()) {
+                        student.printWithIndex(index);
+                    }
+                    index++;
+                }
 
-				Turma turmaEscolhida = null;
-				try {
-					turmaEscolhida = listaDeTurmas.get(indexTurmaEscolhida);					
-				} catch (Exception e) {
-					System.out.println("Turma inválida");
-					break;
-				}
+                System.out.print("Aluno escolhido: ");
+                int selectedStudentIndex = scan.nextInt();
+                scan.nextLine();
 
-				if (turmaEscolhida.getAlunos().size() == 0 ) {
-					System.out.println("Nenhum aluno nessa turma");
-					break;
-				}
-				
-				System.out.printf("Alunos na turma %s: \n", turmaEscolhida.getNome());
-				int index = 0;
-				for (Aluno aluno : turmaEscolhida.getAlunos()) {
-					aluno.printaComIndex(index);
-					index++;
-				}
+                try {
+                    selectedClass.addStudent(studentList.get(selectedStudentIndex));
+                } catch (Exception e) {
+                    System.out.println("ERRO! Aluno inválido");
+                }
 
-				System.out.print("Remover Aluno: ");
-				int indexAlunoParaSerRemovido;
-				indexAlunoParaSerRemovido = scan.nextInt();
-				scan.nextLine();
-				try {
-					Aluno alunoParaSerRemovido = listaDeAlunos.get(indexAlunoParaSerRemovido);
-					turmaEscolhida.removerAluno(alunoParaSerRemovido);
-				} catch (Exception e) {
-					System.out.println("ERRO! Aluno inválido");
-					
-				}
+            } else if (option == 5) {
+                int selectedClassIndex;
+                System.out.print("Turma: ");
+                selectedClassIndex = scan.nextInt();
+                scan.nextLine();
 
+                Class classEscolhida = null;
+                try {
+                    classEscolhida = classList.get(selectedClassIndex);
+                } catch (Exception e) {
+                    System.out.println("Turma inválida");
+                    break;
+                }
 
-			} else if (opcaoMenuTurmas == 6) {
-				int indexTurmaEscolhida;
-				System.out.print("Turma: ");
-				indexTurmaEscolhida = scan.nextInt();
-				scan.nextLine();
+                if (classEscolhida.getAlunos().size() == 0) {
+                    System.out.println("Nenhum aluno nessa turma");
+                    break;
+                }
 
-				Turma turmaEscolhida = null;
-				try {
-					turmaEscolhida = listaDeTurmas.get(indexTurmaEscolhida);					
-				} catch (Exception e) {
-					System.out.println("Turma inválida");
-					break;
-				}
-				
-				System.out.println("Professores disponíveis:");
-				int index = 0;
-				for (Professor professor : listaDeProfessores) {
-					if (!turmaEscolhida.getProfessores().contains(professor))
-						professor.printaComIndex(index);
-					index++;
-				}
+                System.out.printf("Alunos na turma %s: \n", classEscolhida.getName());
+                int index = 0;
+                for (Student student : classEscolhida.getAlunos()) {
+                    student.printWithIndex(index);
+                    index++;
+                }
 
-				System.out.print("Professor escolhido: ");
-				int indexProfessorEscolhido;
-				indexProfessorEscolhido = scan.nextInt();
-				scan.nextLine();
+                System.out.print("Remover Aluno: ");
+                int indexAlunoParaSerRemovido;
+                indexAlunoParaSerRemovido = scan.nextInt();
+                scan.nextLine();
+                try {
+                    Student studentParaSerRemovido = studentList.get(indexAlunoParaSerRemovido);
+                    classEscolhida.removeStudent(studentParaSerRemovido);
+                } catch (Exception e) {
+                    System.out.println("ERRO! Aluno inválido");
 
-				try {
-					turmaEscolhida.adicionarProfessor(listaDeProfessores.get(indexProfessorEscolhido));
-				} catch (Exception e) {
-					System.out.println("ERRO! Professor inválido");
-				}
+                }
 
-			} else if (opcaoMenuTurmas == 7) {
-				int indexTurmaEscolhida;
-				System.out.print("Turma: ");
-				indexTurmaEscolhida = scan.nextInt();
-				scan.nextLine();
+            } else if (option == 6) {
+                int indexTurmaEscolhida;
+                System.out.print("Turma: ");
+                indexTurmaEscolhida = scan.nextInt();
+                scan.nextLine();
 
-				Turma turmaEscolhida = null;
-				try {
-					turmaEscolhida = listaDeTurmas.get(indexTurmaEscolhida);					
-				} catch (Exception e) {
-					System.out.println("Turma inválida");
-					break;
-				}
-				
-				if (turmaEscolhida.getProfessores().size() == 0 ) {
-					System.out.println("Nenhum professor nessa turma");
-					break;
-				}
+                Class classEscolhida = null;
+                try {
+                    classEscolhida = classList.get(indexTurmaEscolhida);
+                } catch (Exception e) {
+                    System.out.println("Turma inválida");
+                    break;
+                }
 
+                System.out.println("Professores disponíveis:");
+                int index = 0;
+                for (Teacher teacher : teacherList) {
+                    if (!classEscolhida.getTeachers().contains(teacher))
+                        teacher.printWithIndex(index);
+                    index++;
+                }
 
-				System.out.printf("Professores na turma %s: \n", turmaEscolhida.getNome());
-				int index = 0;
-				for (Professor professor : turmaEscolhida.getProfessores()) {
-					professor.printaComIndex(index);
-					index++;
-				}
+                System.out.print("Professor escolhido: ");
+                int indexProfessorEscolhido;
+                indexProfessorEscolhido = scan.nextInt();
+                scan.nextLine();
 
-				System.out.print("Remover Professor: ");
-				int indexProfessorParaSerRemovido;
-				indexProfessorParaSerRemovido = scan.nextInt();
-				scan.nextLine();
+                try {
+                    classEscolhida.addTeacher(teacherList.get(indexProfessorEscolhido));
+                } catch (Exception e) {
+                    System.out.println("ERRO! Professor inválido");
+                }
 
-				try {
-					Professor ProfessorParaSerRemovido = listaDeProfessores.get(indexProfessorParaSerRemovido);
-					turmaEscolhida.removerProfessor(ProfessorParaSerRemovido);
-				} catch (Exception e) {
-					System.out.println("ERRO! Professor inválido");
-				}
+            } else if (option == 7) {
+                System.out.print("Turma: ");
+                int selectedClassIndex = scan.nextInt();
+                scan.nextLine();
 
-			} else if (opcaoMenuTurmas == 8) {
-				int indexTurmaEscolhida;
-				System.out.print("Turma: ");
-				indexTurmaEscolhida = scan.nextInt();
-				scan.nextLine();
-				
-				Turma turmaEscolhida = null;
-				try {
-					turmaEscolhida = listaDeTurmas.get(indexTurmaEscolhida);					
-				} catch (Exception e) {
-					System.out.println("Turma inválida");
-					break;
-				}
-				turmaEscolhida.inspecionarTurma();
-			}
+                Class selectedClass = null;
+                try {
+                    selectedClass = classList.get(selectedClassIndex);
+                } catch (Exception e) {
+                    System.out.println("Turma inválida");
+                    break;
+                }
 
-		} while (opcaoMenuTurmas != 1);
+                if (selectedClass.getTeachers().size() == 0) {
+                    System.out.println("Nenhum professor nessa turma");
+                    break;
+                }
 
-	}
+                System.out.printf("Professores na turma %s: \n", selectedClass.getName());
+                int index = 0;
+                for (Teacher teacher : selectedClass.getTeachers()) {
+                    teacher.printWithIndex(index);
+                    index++;
+                }
 
-	public static void portalDeAlunos(List<Turma> listaDeTurmas, List<Aluno> listaDeAlunos, List<Professor> listaDeProfessores) {
-		Scanner scan = new Scanner(System.in);
-		int opcaoMenuAlunos;
-		do {
-			Telas.printaMenuAluno();
-			opcaoMenuAlunos = scan.nextInt();
-			scan.nextLine();
+                System.out.print("Remover Professor: ");
+                int teacherToBeRemovedIndex = scan.nextInt();
+                scan.nextLine();
 
-			if (opcaoMenuAlunos == 2) {
-				System.out.println("Nome do Aluno: ");
-				String nome = scan.nextLine();
-				listaDeAlunos.add(new Aluno(nome));
-			} else if (opcaoMenuAlunos == 3) {
-				int index;
-				System.out.print("Digite o índice do aluno que deseja excluir: ");
-				index = scan.nextInt();
-				scan.nextLine();
-				listaDeAlunos.remove(index);
+                try {
+                    Teacher teacherToBeRemoved = teacherList.get(teacherToBeRemovedIndex);
+                    selectedClass.removerProfessor(teacherToBeRemoved);
+                } catch (Exception e) {
+                    System.out.println("ERRO! Professor inválido");
+                }
 
-			} else if (opcaoMenuAlunos == 4) {
-				if (listaDeAlunos.isEmpty()) {
-					System.out.println("Nenhum aluno cadastrado!");
-				} else {
-					int index = 0;
-					System.out.println("Mostrando os alunos:");
-					for (Aluno aluno : listaDeAlunos) {
-						aluno.printaComIndex(index);
-						index++;
-					}
-				}
-			}
-		} while (opcaoMenuAlunos != 1);
+            } else if (option == 8) {
+                int selectedClassIndex;
+                System.out.print("Turma: ");
+                selectedClassIndex = scan.nextInt();
+                scan.nextLine();
 
-	}
+                Class selectedClass = null;
+                try {
+                    selectedClass = classList.get(selectedClassIndex);
+                } catch (Exception e) {
+                    System.out.println("Turma inválida");
+                    break;
+                }
+                selectedClass.inspectClass();
+            }
+        } while (option != 1);
 
-	public static void portalDeProfessores(List<Turma> listaDeTurmas, List<Aluno> listaDeAlunos,List<Professor> listaDeProfessores) {
-		Scanner scan = new Scanner(System.in);
-		int opcaoMenuProfessores;
+    }
 
-		do {
-			Telas.printaMenuProfessor();
-			opcaoMenuProfessores = scan.nextInt();
-			scan.nextLine();
+    public static void studentClass(List<Class> listaDeClasses, List<Student> studentList, List<Teacher> listaDeProfessores) {
+        Scanner scan = new Scanner(System.in);
+        int option;
+        do {
+            Screen.studentMenu();
+            option = scan.nextInt();
+            scan.nextLine();
 
-			if (opcaoMenuProfessores == 2) {
-				System.out.println("Nome do Professor: ");
-				String nome = scan.nextLine();
-				System.out.println("Matéria do Professor: ");
-				String materia = scan.nextLine();
+            if (option == 2) {
+                System.out.println("Nome do Aluno: ");
+                String name = scan.nextLine();
+                studentList.add(new Student(name));
+            } else if (option == 3) {
+                int index;
+                System.out.print("Digite o índice do aluno que deseja excluir: ");
+                index = scan.nextInt();
+                scan.nextLine();
+                studentList.remove(index);
 
-				listaDeProfessores.add(new Professor(nome, materia));
+            } else if (option == 4) {
+                if (studentList.isEmpty()) {
+                    System.out.println("Nenhum aluno cadastrado!");
+                } else {
+                    System.out.println("Mostrando os alunos:");
+                    int index = 0;
+                    for (Student student : studentList) {
+                        student.printWithIndex(index);
+                        index++;
+                    }
+                }
+            }
+        } while (option != 1);
+    }
 
-			} else if (opcaoMenuProfessores == 3) {
-				int index;
-				System.out.print("Digite o índice do professor que deseja excluir: ");
-				index = scan.nextInt();
-				scan.nextLine();
-				listaDeProfessores.remove(index);
+    public static void teacherPortal(List<Class> classList, List<Student> listaDeStudents, List<Teacher> teacherList) {
+        Scanner scan = new Scanner(System.in);
+        int option;
 
-			} else if (opcaoMenuProfessores == 4) {
-				if (listaDeProfessores.isEmpty()) {
-					System.out.println("Nenhum professor cadastrado!");
+        do {
+            Screen.teacherMenu();
+            option = scan.nextInt();
+            scan.nextLine();
 
-				} else {
-					int index = 0;
-					System.out.println("Mostrando os professores:");
-					for (Professor professor : listaDeProfessores) {
-						professor.printaComIndex(index);
-						index++;
-					}
+            if (option == 2) {
+                System.out.println("Nome do Professor: ");
+                String name = scan.nextLine();
 
-				}
-			}
+                System.out.println("Matéria do Professor: ");
+                String subject = scan.nextLine();
 
-		} while (opcaoMenuProfessores != 1);
+                teacherList.add(new Teacher(name, subject));
 
-	}
+            } else if (option == 3) {
+                int index;
+                System.out.print("Digite o índice do professor que deseja excluir: ");
+                index = scan.nextInt();
+                scan.nextLine();
+                teacherList.remove(index);
+
+            } else if (option == 4) {
+                if (teacherList.isEmpty()) {
+                    System.out.println("Nenhum professor cadastrado!");
+                } else {
+                    System.out.println("Mostrando os professores:");
+                    int index = 0;
+                    for (Teacher teacher : teacherList) {
+                        teacher.printWithIndex(index);
+                        index++;
+                    }
+                }
+            }
+        } while (option != 1);
+    }
 }
